@@ -7,13 +7,15 @@ import static com.codeborne.selenide.Selenide.*;
 public class SelenideIssueTest {
 
     String expectedIssueName = "Integrate Selenide with CDP";
+    private static final String ISSUE_NUMBER = "1157";
+    private static final String ISSUES = "Issues";
 
     @Test
     void shouldSeeSelenideIssue() {
         open("https://github.com/selenide/selenide/issues");
-        $("div[aria-label='Issues']")
-                .should(visible).$("div#issue_1157")
-                .should(visible).$("div#issue_1157 div a#issue_1157_link")
+        $("div[aria-label='" + ISSUES + "']")
+                .should(visible).$("div#issue_" + ISSUE_NUMBER)
+                .should(visible).$("div a#issue_"+ ISSUE_NUMBER + "_link")
                 .shouldHave(text(expectedIssueName));
     }
 }
