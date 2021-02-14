@@ -11,17 +11,17 @@ public class BaseSteps {
     private static final String BASE_URL = "https://github.com/";
     private static final String SELENIDE = "selenide";
 
-    @Step("Переходим в ${repo}")
+    @Step("Переходим в {repo}")
     public void openRepoPage(final String repo) {
         open(BASE_URL + repo);
     }
 
-    @Step("Открываем страницу в ${issues}")
+    @Step("Открываем страницу в {issues}")
     public void openIssuesPage(final String issues) {
         open(BASE_URL + SELENIDE + "/" + SELENIDE + "/" + issues);
     }
 
-    @Step("Проверяем, что Issue ${issue} с именем ${expectedIssueName} существует")
+    @Step("Проверяем, что Issue {issueNumber} с именем {expectedIssueName} существует")
     public void checkThatIssueExists(final String issueNumber, final String expectedIssueName) {
         $("div[aria-label='Issues']")
                 .should(visible).$("div#issue_" + issueNumber)
