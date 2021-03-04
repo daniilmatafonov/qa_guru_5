@@ -1,53 +1,41 @@
-import com.codeborne.selenide.Condition;
 import org.junit.jupiter.api.Test;
+import steps.BaseSteps;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Condition.visible;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
-public class SelenideIssueTest {
+public class SelenideIssueTest extends BaseTest {
 
     final BaseSteps baseSteps = new BaseSteps();
-    private static final String ISSUE_NUMBER = "1157";
-    private static final String ISSUES = "Issues";
-    private static final String SELENIDE_REPO = "selenide";
-    String EXPECTED_ISSUE_NAME = "Integrate Selenide with CDP";
+    private static final String REPOSITORY_NAME = "selenide";
+    private static final String EXPECTED_ISSUE_NAME = "Caused by: TimeoutException: Expected condition failed after 5.14.0 update";
 
     @Test
-    void shouldSeeSelenideIssue() {
-        open("https://github.com/selenide/selenide/issues");
-        $("div[aria-label='" + ISSUES + "']")
-                .should(visible).$("div#issue_" + ISSUE_NUMBER)
-                .should(visible).$("div a#issue_" + ISSUE_NUMBER + "_link")
-                .shouldHave(text(EXPECTED_ISSUE_NAME));
+    public void shouldSeeSelenideIssue() {
+        open("/" + REPOSITORY_NAME);
+        $("span[data-content='Issues']").click();
+        $(BaseSteps.ISSUE_NUMBER_SELECTOR).shouldBe(visible).shouldHave(text(EXPECTED_ISSUE_NAME));
     }
 
     @Test
-    void shouldSeeSelenideIssueSteps() {
-        step("Открываем репозиторий " + SELENIDE_REPO, () -> {
-            open("https://github.com/selenide");
+    public void shouldSeeSelenideIssueSteps() {
+        step("Открываем репозиторий " + REPOSITORY_NAME, () -> {
+            open("/" + REPOSITORY_NAME);
         });
-        step("Открываем " + ISSUES, () -> {
-            open("https://github.com/selenide/selenide/issues");
+        step("Переходим в issues ", () -> {
+            $("span[data-content='Issues']").click();
         });
-
-        step("Проверяем, что Issue " + ISSUE_NUMBER + " существует", () -> {
-            $("div[aria-label='" + ISSUES + "']")
-                    .should(visible).$("div#issue_" + ISSUE_NUMBER)
-                    .should(visible).$("div a#issue_" + ISSUE_NUMBER + "_link").should(Condition.exist);
+        step("Проверяем, что Issue с именем " + EXPECTED_ISSUE_NAME + " существует", () -> {
+            $(BaseSteps.ISSUE_NUMBER_SELECTOR).shouldBe(visible).shouldHave(text(EXPECTED_ISSUE_NAME));
         });
-
-        $("div[aria-label='" + ISSUES + "']")
-                .should(visible).$("div#issue_" + ISSUE_NUMBER)
-                .should(visible).$("div a#issue_" + ISSUE_NUMBER + "_link")
-                .shouldHave(text(EXPECTED_ISSUE_NAME));
     }
 
     @Test
-    void shouldSeeSelenideIssueAnnotationSteps(){
-        baseSteps.openRepoPage(SELENIDE_REPO);
-        baseSteps.openIssuesPage("issues");
-        baseSteps.checkThatIssueExists(ISSUE_NUMBER, EXPECTED_ISSUE_NAME);
+    public void shouldSeeSelenideIssueAnnotationSteps() {
+        baseSteps.openRepoPage(REPOSITORY_NAME);
+        baseSteps.openIssuesPage();
+        baseSteps.checkThatIssueExists(EXPECTED_ISSUE_NAME);
     }
 }
