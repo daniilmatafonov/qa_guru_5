@@ -8,7 +8,7 @@ import static io.qameta.allure.Allure.step;
 
 public class SelenideIssueTest extends BaseTest {
 
-    final BaseSteps baseSteps = new BaseSteps();
+    private BaseSteps baseSteps = new BaseSteps();
     private static final String REPOSITORY_NAME = "selenide";
     private static final String EXPECTED_ISSUE_NAME = "Caused by: TimeoutException: Expected condition failed after 5.14.0 update";
 

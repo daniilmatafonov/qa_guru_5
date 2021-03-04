@@ -1,6 +1,5 @@
 package steps;
 
-import com.codeborne.selenide.Condition;
 import io.qameta.allure.Step;
 
 import static com.codeborne.selenide.Condition.text;
@@ -24,6 +23,6 @@ public class BaseSteps {
 
     @Step("Проверяем, что Issue с именем {expectedIssueName} существует")
     public void checkThatIssueExists(final String expectedIssueName) {
-        $(ISSUE_NUMBER_SELECTOR).should(visible).shouldHave(text(expectedIssueName));
+        $(ISSUE_NUMBER_SELECTOR).shouldBe(visible).shouldHave(text(expectedIssueName));
     }
 }
